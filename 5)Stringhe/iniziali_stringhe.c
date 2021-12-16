@@ -24,8 +24,8 @@ char *p;
 	int lunghezze[n];
 	char a[n][max_lung+1];
 	
-	leggistringa(a,i); //la chiami per la prima volta a vuoto, perchè la prima volta non legge (non so pk)
-		
+	while(getchar() != '\n'); // pulisci buffer	
+	
 	for(i=0;i<n;i++)
 	{
 		printf("\nInserisci stringa %d: ", i+1);
