@@ -16,7 +16,7 @@ typedef struct acquisto
 
 /*Prototipi*/
 void leggi(char *a);
-Acquisto *leggi_acquisti(FILE *f,int n_acquisti);
+Acquisto *leggi_acquisti(FILE *f,int *n_acquisti);
 void *xmalloc(size_t size);
 void riempi_file(FILE *f, int  n_file);
 
@@ -52,7 +52,7 @@ int main()
         fprintf(stderr, "Errore nell'apertura del file: %s\n", fname);
         exit(-1);
     }
-	a=leggi_acquisti(f,n_file); //stampa del file
+	a=leggi_acquisti(f,&n_file); //stampa del file
 
 	fclose(f); 
 	
@@ -84,28 +84,27 @@ void riempi_file(FILE *f, int  n_file)
         fprintf(f,"%s\n", a[i].descrizione);
         fprintf(f,"%d\n", a[i].quantita);
         fprintf(f,"%lf\n", a[i].prezzo_unitario);
-        while(getchar() != '\n'); // pulisci buffer
+        while(getchar()!='\n'); // pulisci buffer
     }
 }
 
-Acquisto *leggi_acquisti(FILE *f,int n_acquisti)
+Acquisto *leggi_acquisti(FILE *f,int *n_acquisti)
 {
-   int i,num=0;
+   int i;
    Acquisto *p;
    
    printf("\n\n - Stampa Contenuto file -\n"); 
-   fscanf(f,"%d",&num);
-   printf("%d\n",num); 
+   fscanf(f,"%d",n_acquisti);
+   printf("%d\n",n_acquisti); 
    
-   p=xmalloc(num*sizeof(Acquisto));
+    p=(Acquisto*)xmalloc(*n_acquisti*sizeof(Acquisto));
    
-	for(i=0;i<num;i++)
+	for(i=0;i<*n_acquisti;i++)
 	{
-		fscanf(f,"%s",&p[i].descrizione); 		printf("%s\n", p[i].descrizione); 
+		fscanf(f,"%s",p[i].descrizione); 		printf("%s\n", p[i].descrizione); 
   		fscanf(f,"%d",&p[i].quantita);			printf("%d\n", p[i].quantita); 
   		fscanf(f,"%lf",&p[i].prezzo_unitario); 	printf("%lf\n", p[i].prezzo_unitario); 
 	}
-  	n_acquisti=i;
   	return p;
 }
 
